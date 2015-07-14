@@ -99,7 +99,7 @@ let arithExprInteger : Parser[ArithExpr] =
 
 let rec arithExpr : Parser[ArithExpr] =
     \(s : ParseInput) ->
-        chainl1[ArithExpr]
+        chainr1[ArithExpr]
             (arithExprTerm <*[ArithExpr, Unit] arithExprSpace)
             (arithExprAddSub <*[ArithExpr -> ArithExpr -> ArithExpr, Unit] arithExprSpace)
             s
@@ -111,7 +111,7 @@ and arithExprFactor : Parser[ArithExpr] =
             s
 and arithExprTerm : Parser[ArithExpr] =
     \(s : ParseInput) ->
-        chainl1[ArithExpr]
+        chainr1[ArithExpr]
             (arithExprFactor <*[ArithExpr, Unit] arithExprSpace)
             (arithExprMulDiv <*[ArithExpr -> ArithExpr -> ArithExpr, Unit] arithExprSpace)
             s;
